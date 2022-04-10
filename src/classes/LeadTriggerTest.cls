@@ -68,6 +68,7 @@ private class LeadTriggerTest {
     }
 
     private static void insert1000Accounts() {
+  
         List<Account> accounts = new List<Account>();
 
         for (Integer i = 0; i < 1000; i++) {
@@ -78,6 +79,7 @@ private class LeadTriggerTest {
     }
 
     private static List<Lead> insert1000Leads() {
+
         List<Lead> leads = new List<Lead>();
 
         for (Integer i = 0; i < 1000; i++) {
