@@ -19,16 +19,10 @@ private class LeadTriggerTest {
 
     @isTest
     static void testAccountWithDomainFoundBulk() {
-        create1000Accounts();
+        insert1000Accounts();
 
         Test.startTest();
-
-        List<Lead> leads = new List<Lead>();
-        for (Integer i = 0; i < 1000; i++) {
-            leads.add(TestDataFactory.lead().setEmail('test.lead@test-domain' + i + '.com').get());
-        }
-        Database.insert(leads);
-
+        List<Lead> leads = insert1000Leads();
         Test.stopTest();
 
         Set<Id> leadsIds = new Set<Id>();
@@ -73,7 +67,8 @@ private class LeadTriggerTest {
         Database.insert(accounts);
     }
 
-    private static void create1000Accounts() {
+    private static void insert1000Accounts() {
+  
         List<Account> accounts = new List<Account>();
 
         for (Integer i = 0; i < 1000; i++) {
@@ -83,7 +78,8 @@ private class LeadTriggerTest {
         Database.insert(accounts);
     }
 
-    private static void create1000Leads() {
+    private static List<Lead> insert1000Leads() {
+
         List<Lead> leads = new List<Lead>();
 
         for (Integer i = 0; i < 1000; i++) {
@@ -91,5 +87,7 @@ private class LeadTriggerTest {
         }
 
         Database.insert(leads);
+
+        return leads;
     }
 }
