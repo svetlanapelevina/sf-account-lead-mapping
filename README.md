@@ -22,12 +22,12 @@ The following Salesforce declarative tools were used to implement this solution:
 The WebsiteDomain__c formula on Account object was added to simplify querying accounts by domain. It removes protocols 
 (www, http, https) from the Website field. In the result only a domain left.
 
-image
+![website-domain](https://user-images.githubusercontent.com/45166039/162646278-9b43271e-6fbd-47cc-8a27-5368b779fb22.png)
 
 The EmailDomain__c formula on Lead object was added. It finds the '@' symbol in the Email field and returns a text after it.
 It is used only for testing.
 
-image
+![email-domain](https://user-images.githubusercontent.com/45166039/162646287-b6749c54-8278-480d-91bb-7ad0bb678872.png)
 
 ### Flow
 
@@ -38,14 +38,14 @@ EmailDomain__c formula will be not calculated in before update trigger flow sinc
 - The decision element that checks whether the founded account in the previous element is null.
 - The Update Records element that fills in the Lead's Account__c field with the founded account.
 
-image
+![flow](https://user-images.githubusercontent.com/45166039/162646321-1562f9e3-f5dc-4814-984b-b02d0de8bbeb.png)
 
 ## How to use
 
 Go to Salesforce Setup, find Data Import Wizard and click Launch. When selecting data, enable **Trigger workflow rules and 
 processes for new and updated records**. Follow all steps in the wizard and wait for the import job to be completed.
 
-image
+![wizard](https://user-images.githubusercontent.com/45166039/162646332-e82d5325-5c9e-4172-a2ce-0907f7fe6bc7.png)
 
 ### Tests
 
@@ -65,11 +65,11 @@ Name7 | Name7@sforce.com | Company 7
 Let's import these leads using Data Import Wizard. When the import job is finished, we see the result with 7 created
 record.
 
-image
+![test-result](https://user-images.githubusercontent.com/45166039/162646343-ed026369-cee1-41fc-93ab-5d4065e10456.png)
 
 Let's query these leads to check if Lead's Account field has been filled in.
 
-image
+![test-query-result](https://user-images.githubusercontent.com/45166039/162646352-20bfceb0-92bf-40f4-bf7b-2b27e4e1f73f.png)
 
 All leads were mapped with accounts except of the lead with the test domain.
 It worked as expected.
@@ -84,4 +84,4 @@ This repository contains a test class that covers the following cases:
 
 Let's check the element's coverage for the flow.
 
-image
+![tests](https://user-images.githubusercontent.com/45166039/162646377-d547d91b-b158-410e-bcc4-286af1bae567.png)
