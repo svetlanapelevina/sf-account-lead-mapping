@@ -84,7 +84,7 @@ record.
 Let's query these leads to check if Lead's Account field has been filled in. All leads were mapped with accounts except of the lead with the test domain.
 It worked as expected.
 
-![test-query-result](https://user-images.githubusercontent.com/45166039/162646352-20bfceb0-92bf-40f4-bf7b-2b27e4e1f73f.png)
+![Снимок экрана 2022-04-11 050154](https://user-images.githubusercontent.com/45166039/162652842-629ad977-1711-4586-9b13-fb0e13f9d58b.png)
 
 ## Test coverage
 
@@ -96,4 +96,4 @@ This repository contains a test class that covers the following cases:
 
 Let's check the element's coverage for the flow:
 
-![tests](https://user-images.githubusercontent.com/45166039/162646377-d547d91b-b158-410e-bcc4-286af1bae567.png)
+![test-classes](https://user-images.githubusercontent.com/45166039/162652772-8aa7cdcf-5ad2-4b4d-b69b-2d4308a074a6.png)
