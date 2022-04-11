@@ -45,7 +45,7 @@ SUBSTITUTE(Email, LEFT(Email, FIND("@", Email)), NULL)
 
 ### Flow
 
-To implement object mapping, a record-triggered flow was added. It contains 3 elements:
+To implement object mapping, a record-triggered flow was added. A record-triggered flow has a default context as 'without sharing' ([doc](https://help.salesforce.com/s/articleView?id=sf.flow_distribute_context.htm&type=5)). This means that regardless of whether the OWD rules for Account object is private it will find the account. The flow contains 3 elements:
 - The Get Records element that finds an account with WebsiteDomain__c equals to the Lead's Email domain. 
 The Lead's Email domain is the flow variable that has the same formula as EmailDomain__c. 
 EmailDomain__c formula will be not calculated in this flow since the record has not yet been saved in the database.
