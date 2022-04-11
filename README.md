@@ -1,10 +1,12 @@
 # Assignment - Match Leads With Accounts
 
-## Requirements
+## Background
 
 Account object’s standard Website field as well as Lead object’s standard Email field are configured as required fields 
 in the system. To link Lead records to existing customer Accounts a custom Account lookup field on Lead and Lead related
 list to Account view were added.
+
+## Requirements
 
 Field Marketing team is often uploading .csv files containing multiple leads from existing customer companies. 
 Develop a process that would match the incoming Leads to the existing Accounts.
