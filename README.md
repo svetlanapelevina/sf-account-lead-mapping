@@ -7,36 +7,48 @@ in the system. To link Lead records to existing customer Accounts a custom Accou
 list to Account view were added.
 
 Field Marketing team is often uploading .csv files containing multiple leads from existing customer companies. 
-Develop a process that would match the incoming Leads to the existing Accounts to automate this manual task.
+Develop a process that would match the incoming Leads to the existing Accounts.
 Mapping must be based on the Lead's Email domain and the Account's Website domain. 
 We assume that the Website field on Account is unique.
 
 ## Solution
 
 The following Salesforce declarative tools were used to implement this solution:
-- Formula fields to get a domains from Email and Website,
-- Flow to find an Account by domain and put it in the Lead's field.
+- Formula fields to get a domains from Email and Website fields,
+- Flow to find an Account by domain and put it in the Lead's Account__c field.
 
 ### Formula Fields
 
 The WebsiteDomain__c formula on Account object was added to simplify querying accounts by domain. It removes protocols 
 (www, http, https) from the Website field. In the result only a domain left.
 
-![website-domain](https://user-images.githubusercontent.com/45166039/162646278-9b43271e-6fbd-47cc-8a27-5368b779fb22.png)
+```
+IF(
+  CONTAINS(Website, "www."),
+  SUBSTITUTE(Website, LEFT(Website, FIND(".", Website)), NULL),
+  IF(
+    BEGINS(Website, "http"),
+    SUBSTITUTE(Website, LEFT(Website, FIND('//', Website) + 1), NULL),
+    Website
+  )
+)
+```
 
 The EmailDomain__c formula on Lead object was added. It finds the '@' symbol in the Email field and returns a text after it.
 It is used only for testing.
 
-![email-domain](https://user-images.githubusercontent.com/45166039/162646287-b6749c54-8278-480d-91bb-7ad0bb678872.png)
+```
+SUBSTITUTE(Email, LEFT(Email, FIND("@", Email)), NULL)
+```
 
 ### Flow
 
-To implement object mapping, a record-triggered flow insert was added. It contains 3 elements:
+To implement object mapping, a record-triggered flow was added. It contains 3 elements:
 - The Get Records element that finds an account with WebsiteDomain__c equals to the Lead's Email domain. 
 The Lead's Email domain is the flow variable that has the same formula as EmailDomain__c. 
-EmailDomain__c formula will be not calculated in before update trigger flow since the record has not yet been saved in the database.
-- The decision element that checks whether the founded account in the previous element is null.
-- The Update Records element that fills in the Lead's Account__c field with the founded account.
+EmailDomain__c formula will be not calculated in this flow since the record has not yet been saved in the database.
+- The decision element that checks whether the found account is null.
+- The Update Records element that fills in the Lead's Account__c field with the found account.
 
 ![flow](https://user-images.githubusercontent.com/45166039/162646321-1562f9e3-f5dc-4814-984b-b02d0de8bbeb.png)
 
@@ -67,12 +79,10 @@ record.
 
 ![test-result](https://user-images.githubusercontent.com/45166039/162646343-ed026369-cee1-41fc-93ab-5d4065e10456.png)
 
-Let's query these leads to check if Lead's Account field has been filled in.
+Let's query these leads to check if Lead's Account field has been filled in. All leads were mapped with accounts except of the lead with the test domain.
+It worked as expected.
 
 ![test-query-result](https://user-images.githubusercontent.com/45166039/162646352-20bfceb0-92bf-40f4-bf7b-2b27e4e1f73f.png)
-
-All leads were mapped with accounts except of the lead with the test domain.
-It worked as expected.
 
 ## Test coverage
 
@@ -82,6 +92,6 @@ This repository contains a test class that covers the following cases:
 - when the lead's Email field is empty,
 - when uploading a large number of leads.
 
-Let's check the element's coverage for the flow.
+Let's check the element's coverage for the flow:
 
 ![tests](https://user-images.githubusercontent.com/45166039/162646377-d547d91b-b158-410e-bcc4-286af1bae567.png)
